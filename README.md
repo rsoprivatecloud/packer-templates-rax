@@ -27,6 +27,14 @@ At the time of writing, Packer 0.10.1 is the latest. Download it using `curl`:
 
     curl -O https://releases.hashicorp.com/packer/0.10.1/packer_0.10.1_linux_amd64.zip
 
+There's already a program named __packer__ in the BASH path. Rename the __packer__ you just downloaded to __packerio__:
+
+    mv /root/packer /root/packerio
+
+Move the newly renamed __packerio__ binary to __/usr/local/bin__:
+
+    mv /root/packerio /usr/local/bin
+
 Build an Image with Packer
 --------------------------
 
@@ -40,7 +48,7 @@ Change into the appropriate directory:
 
 Finally, run `packer`:
 
-    packer build template-centos-7-x86_64-1511-rax-openstack.json
+    packerio build template-centos-7-x86_64-1511-rax-openstack.json
 
 After about 10 minutes, the image will be created.
 
