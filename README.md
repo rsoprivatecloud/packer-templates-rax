@@ -21,11 +21,21 @@ Packer needs __qemu-kvm__ available in the BASH path. For some reason it isn't a
 
     echo 'export PATH=$PATH:/usr/libexec' > /etc/profile.d/libexec-path.sh
 
+Also, add __/usr/local/bin__ to your BASH path:
+
+    echo 'export PATH=$PATH:/usr/local/bin' > /etc/profile.d/usr-local-bin-path.sh
+
+You might need to log out and log back into the root user for the BASH path changes to take affect.
+
 Download the [latest version of Packer](https://www.packer.io/downloads.html).
 
 At the time of writing, Packer 0.10.1 is the latest. Download it using `curl`:
 
     curl -O https://releases.hashicorp.com/packer/0.10.1/packer_0.10.1_linux_amd64.zip
+
+Unzip __packer__:
+
+    unzip packer_0.10.1_linux_amd64.zip
 
 There's already a program named __packer__ in the BASH path. Rename the __packer__ you just downloaded to __packerio__:
 
