@@ -2,8 +2,8 @@
   "builders": [
     {
       "type": "qemu",
-      "name": "centos-7-x86_64-1511-rax",
-      "vm_name": "centos-7-x86_64-1511-rax",
+      "name": "centos-7-x86_64-1511-rax-xfs",
+      "vm_name": "centos-7-x86_64-1511-rax-xfs",
       "accelerator": "kvm",
       "disk_size": 2048,
       "format": "qcow2",
@@ -21,7 +21,31 @@
       "qemuargs": [ [ "-m", "1024m" ] ],
       "boot_wait": "10s",
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7-x86_64-rax-openstack.txt<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7-x86_64-rax-openstack-xfs.txt<enter><wait>"
+      ]
+    },
+    {
+      "type": "qemu",
+      "name": "centos-7-x86_64-1511-rax-ext4",
+      "vm_name": "centos-7-x86_64-1511-rax-ext4",
+      "accelerator": "kvm",
+      "disk_size": 2048,
+      "format": "qcow2",
+      "headless": true,
+      "http_directory": "http",
+      "iso_checksum": "f90e4d28fa377669b2db16cbcb451fcb9a89d2460e3645993e30e137ac37d284",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://mirror.rackspace.com/CentOS/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso",
+      "shutdown_command": "/sbin/shutdown -hP now",
+      "ssh_username": "root",
+      "ssh_password": "changeme",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "qemu_binary": "qemu-kvm",
+      "qemuargs": [ [ "-m", "1024m" ] ],
+      "boot_wait": "10s",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7-x86_64-rax-openstack-ext4.txt<enter><wait>"
       ]
     }
   ],

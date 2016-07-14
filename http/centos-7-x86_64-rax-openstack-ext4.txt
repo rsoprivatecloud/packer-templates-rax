@@ -1,0 +1,44 @@
+install
+text
+
+cdrom
+
+lang en_US.UTF-8
+keyboard us
+
+network --onboot yes --bootproto dhcp --noipv6
+
+timezone UTC
+
+zerombr
+clearpart --all --initlabel
+bootloader --location=mbr
+
+part / --fstype=ext4 --size=1024 --grow
+
+authconfig --enableshadow --passalgo=sha512
+
+rootpw changeme
+
+firewall --disable
+selinux --disabled
+
+skipx
+
+reboot
+
+%packages
+@core
+openssh-server
+openssh-clients
+ca-certificates
+curl
+man
+%end
+
+%post
+# Point yum at mirror.rackspace.com
+sed -i 's/^mirrorlist/#mirrorlist/' /etc/yum.repos.d/CentOS-Base.repo
+sed -i 's/^#baseurl/baseurl/' /etc/yum.repos.d/CentOS-Base.repo
+sed -i 's/mirror.centos.org/mirror.rackspace.com/' /etc/yum.repos.d/CentOS-Base.repo
+%end
