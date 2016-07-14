@@ -8,7 +8,7 @@ If you already have a Linux workstation or access to a Linux server with hardwar
 
 Or, if you have access to any OpenStack environment and have it configured to passthrough the hardware virtualization flags to the OpenStack Instance, you can create an OpenStack Instance from any modern Ubuntu or CentOS cloud image.
 
-The following instructions will focus on using a CentOS 7 based workstation/server/instance as the build host.
+The following instructions will focus on using a CentOS 7 based workstation/server/instance as the build host and will result in creating two CentOS 7 OpenStack compatible images: an XFS image and a ext4 image.
 
 Setup the Build Host
 --------------------
@@ -60,20 +60,32 @@ Finally, run `packer`:
 
     packerio build template-centos-7-x86_64-1511-rax-openstack.json
 
-After about 10 minutes, the image will be created.
+After about 10 minutes, the images will be created.
 
 Prepare the Image for Upload
 ----------------------------
 
 The resulting image is larger than it needs to be. It can be compressed and the current size reduced by half.
 
+### XFS Image
+
 Change into the appropriate directory:
 
-    cd output-centos-7-x86_64-1511-rax
+    cd output-centos-7-x86_64-1511-rax-xfs
 
 Compress the image:
 
-    qemu-img convert -c centos-7-x86_64-1511-rax -O qcow2 centos-7-x86_64-1511-rax.qcow2
+    qemu-img convert -c centos-7-x86_64-1511-rax-xfs -O qcow2 centos-7-x86_64-1511-rax-xfs.qcow2
+
+### ext4 Image
+
+Change into the appropriate directory:
+
+    cd output-centos-7-x86_64-1511-rax-ext4
+
+Compress the image:
+
+    qemu-img convert -c centos-7-x86_64-1511-rax-ext4 -O qcow2 centos-7-x86_64-1511-rax-ext4.qcow2
 
 Upload the Image to Glance
 --------------------------
@@ -104,17 +116,21 @@ Download an openrc file from your OpenStack environment associated with the Open
 
 You could also make the Glance Image Public within OpenStack so every OpenStack Project can see it.
 
-### Upload the Image to Glance
+### Upload the Images to Glance
 
 Source the openrc file:
 
     source /root/openrc
 
-Upload the image to Glance with the following command:
+Upload the XFS image to Glance with the following command:
 
-    glance image-create --name centos-7-x86_64-1511-rax --disk-format=qcow2 --container-format=bare --file centos-7-x86_64-1511-rax.qcow2
+    glance image-create --name centos-7-x86_64-1511-rax-xfs --disk-format=qcow2 --container-format=bare --file centos-7-x86_64-1511-rax-xfs.qcow2
 
-You should now be able to create OpenStack Instances from the new Glance Image.
+Upload the ext4 image to Glance with the following command:
+
+    glance image-create --name centos-7-x86_64-1511-rax-ext4 --disk-format=qcow2 --container-format=bare --file centos-7-x86_64-1511-rax-ext4.qcow2
+
+You should now be able to create OpenStack Instances from the new Glance Images.
 
 References
 ----------
